@@ -1,4 +1,4 @@
-// config/passport.js
+//config/passport.js
 
 // load all the things we need
 //var LocalStrategy    = require('passport-local').Strategy;
@@ -36,12 +36,12 @@ module.exports = function(passport) {
     // GOOGLE ==================================================================
     // =========================================================================
     // load the auth variables
-    /*
-    var configAuth = require('./auth');
-    const clientID = configAuth.googleAuth.clientID
-    const clientSecret = configAuth.googleAuth.clientSecret
-    const callbackURL = configAuth.googleAuth.callbackURL
-    */
+
+    //var configAuth = require('./auth');
+    //const clientID = configAuth.googleAuth.clientID
+    //const clientSecret = configAuth.googleAuth.clientSecret
+    //const callbackURL = configAuth.googleAuth.callbackURL
+
 
 
     const clientID = process.env.clientID
