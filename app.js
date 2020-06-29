@@ -53,6 +53,7 @@ app.use('/users', usersRouter);
 app.use('/todo',toDoRouter);
 app.use('/todoAjax',toDoAjaxRouter);
 
+
 app.get('/profiles',
     isLoggedIn,
     async (req,res,next) => {
@@ -109,9 +110,13 @@ app.post('/editProfile',
     })
 
 
-app.use('/data',(req,res) => {
-  res.json([{a:1,b:2},{a:5,b:3}]);
-})
+
+    app.get("/showMeeting",
+      isLoggedIn, 
+      (req,res) =>{
+        res.render("showMeeting");
+      }
+    );
 
 const User = require('./models/User');
 
