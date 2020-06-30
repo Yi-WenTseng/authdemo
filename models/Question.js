@@ -8,7 +8,7 @@ var questionSchema = Schema( {
   author:ObjectId,
   date:Date,
   question:String,
-  answer:[{type:Schema.Types.ObjectId, ref:"User"}]
+  answers:[{type:Schema.Types.ObjectId, ref:"Answer"}]
 } );
 
 module.exports = mongoose.model( 'QuestionYT', questionSchema );

@@ -133,8 +133,8 @@ app.post('/addMeeting',
       let date=req.body.date
       let link=req.body.link
       let newMeeting=new Meeting({name:name,date:date,link:link})
-      console.log(req.body)
       await newMeeting.save()
+      req.user.meeting.push(newMeeting)
       res.redirect('/showMeeting')
     }
     catch(e){
@@ -143,14 +143,10 @@ app.post('/addMeeting',
   }
 )
 
-/*app.get('/showMeeting',(req,res)=>{
-  res.render('showMeeting');
-})*/
-
 app.get('/showMeeting',
   async(req, res,next) => {
     try {
-      res.locals.meetings = await Meeting.find({})
+      res.locals.meetings = req.user.meeting
       res.render('showMeeting')
     } catch (e) {
       next(e)
@@ -196,7 +192,6 @@ app.get('/about',(req,res)=>{
 })
 
 
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -212,5 +207,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
