@@ -109,15 +109,6 @@ app.post('/editProfile',
 
     })
 
-
-
-    app.get("/showMeeting",
-      isLoggedIn, 
-      (req,res) =>{
-        res.render("showMeeting");
-      }
-    );
-
 const User = require('./models/User');
 
 app.get("/test",async (req,res,next) => {
@@ -129,6 +120,48 @@ app.get("/test",async (req,res,next) => {
   }
 
 })
+
+//const Meeting = require('./models/Meeting');
+
+app.get('/addMeeting',(req,res)=>{
+  res.render('addMeeting')
+})
+
+/*app.post('/addMeeting',
+  async(req,res,next)=>{
+    try{
+      let name=req.body.name
+      let date=req.body.date
+      let link=req.body.link
+      let newMeeting=new Meeting({name:name,date:date,link:link})
+      console.log(req.body)
+      await newMeeting.save()
+      res.redirect('/showMeeting')
+    }
+    catch(e){
+      next(e)
+    }
+  }
+)*/
+
+app.get('/addQuestion',(req,res)=>{
+  res.render('addQuestion')
+})
+
+app.get('/showMeeting',(req,res)=>{
+  res.render('showMeeting')
+})
+
+/*app.get('/showMeeting',
+  async(req, res,next) => {
+    try {
+      res.locals.meetings = await Meeting.find({_id:req.user.meeting})
+      res.render('showMeeting')
+    } catch (e) {
+      next(e)
+    }
+  }
+)*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

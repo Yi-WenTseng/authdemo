@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 var meetingSchema = Schema( {
   name:String,
   participant:[{type:Schema.Types.Objected, ref:"User"}],
-  date:String
+  date:String,
+  link:String
 } );
 
 module.exports = mongoose.model( 'MeetingYT', meetingSchema );
