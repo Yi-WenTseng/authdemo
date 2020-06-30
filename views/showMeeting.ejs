@@ -2,12 +2,16 @@
   <h1>Your Meeting</h1>
 </div>
 <hr>
-<ol>
+<div class="row">
   <%meetings.forEach(meeting => { %>
-    <li>
-          <%=meeting.name %>
-          <a href="<%= meeting.link %>">Meeting Link </a>
-          <%= meeting.date %>
-    </li>
+    <div class="card w-75" style="width:40rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%= meeting.name %></h5>
+        <p class="card-text">Meeting Time: <%= meeting.date %></p>
+        <a href="<%= meeting.link %>" class="btn btn-info">Meeting Link</a>
+      </div>
+    </div>
+    <br>
+    <br>
   <% }) %>
-</ol>
+</div>

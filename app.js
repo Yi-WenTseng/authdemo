@@ -75,7 +75,7 @@ app.use('/publicprofile/:userId',
         res.render('publicprofile')
       }
       catch(e){
-        console.log("Error in /profile/userId:")
+        console.log("Error in /profile/:userId")
         next(e)
       }
     }
@@ -118,7 +118,6 @@ app.get("/test",async (req,res,next) => {
   }catch(e){
     next(e)
   }
-
 })
 
 const Meeting = require('./models/Meeting');
@@ -144,14 +143,14 @@ app.post('/addMeeting',
   }
 )
 
-app.get('/showMeeting',(req,res)=>{
+/*app.get('/showMeeting',(req,res)=>{
   res.render('showMeeting');
-})
+})*/
 
 app.get('/showMeeting',
   async(req, res,next) => {
     try {
-      res.locals.meetings = await Meeting.find({_id:req.user.meeting})
+      res.locals.meetings = await Meeting.find({})
       res.render('showMeeting')
     } catch (e) {
       next(e)
@@ -174,7 +173,7 @@ app.post('/addQuestion',
       let question=req.body.question
       let newQuestion=new Question({subject:subject,author:author,date:date,question:question})
       await newQuestion.save()
-      redirect('/showQuestion')
+      res.redirect('/showQuestion')
     }
     catch(e){
       next(e)
@@ -184,13 +183,17 @@ app.post('/addQuestion',
 app.get('/showQuestion',
   async(req, res,next) => {
     try {
-      res.locals.questions = await Question.find({_id:req.user.question})
+      res.locals.questions = await Question.find({})
       res.render('showQuestion')
     } catch (e) {
       next(e)
     }
   }
 )
+
+app.get('/about',(req,res)=>{
+  res.render('about')
+})
 
 
 
