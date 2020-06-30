@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 var meetingSchema = Schema( {
   name:String,
-  participant:[{type:Schema.Types.Objected, ref:"User"}],
   date:String,
   link:String
 } );

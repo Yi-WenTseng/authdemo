@@ -1,0 +1,12 @@
+<div class="jumbotron">
+  <h1>Show Your Questions</h1>
+</div>
+<hr>
+<ol>
+  <%questions.forEach(question => { %>
+    <li>
+          <%=question.subject %>
+          <%= question.question %>
+    </li>
+  <% }) %>
+</ol>

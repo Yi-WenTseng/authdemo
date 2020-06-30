@@ -12,7 +12,8 @@ var userSchema = Schema( {
   username:String,
   age:Number,
   imageURL: String,
-  meeting:[{type:Schema.Types.ObjectId, ref:"Meeting"}]
+  meeting:[{type:Schema.Types.ObjectId, ref:"Meeting"}],
+  question:[{type:Schema.Types.ObjectId,ref:"Question"}]
 } );
 
 module.exports = mongoose.model( 'UserYT', userSchema );

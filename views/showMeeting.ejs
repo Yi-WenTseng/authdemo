@@ -3,11 +3,11 @@
 </div>
 <hr>
 <ol>
-  <!--<meetings.forEach(meeting => { %>
+  <%meetings.forEach(meeting => { %>
     <li>
-          <meeting.name %>
-          <a href="< meeting.link %>">Meeting Link </a>
-          < meeting.date %>
+          <%=meeting.name %>
+          <a href="<%= meeting.link %>">Meeting Link </a>
+          <%= meeting.date %>
     </li>
-  < }) %>-->
+  <% }) %>
 </ol>

@@ -121,13 +121,13 @@ app.get("/test",async (req,res,next) => {
 
 })
 
-//const Meeting = require('./models/Meeting');
+const Meeting = require('./models/Meeting');
 
 app.get('/addMeeting',(req,res)=>{
   res.render('addMeeting')
 })
 
-/*app.post('/addMeeting',
+app.post('/addMeeting',
   async(req,res,next)=>{
     try{
       let name=req.body.name
@@ -142,17 +142,13 @@ app.get('/addMeeting',(req,res)=>{
       next(e)
     }
   }
-)*/
-
-app.get('/addQuestion',(req,res)=>{
-  res.render('addQuestion')
-})
+)
 
 app.get('/showMeeting',(req,res)=>{
-  res.render('showMeeting')
+  res.render('showMeeting');
 })
 
-/*app.get('/showMeeting',
+app.get('/showMeeting',
   async(req, res,next) => {
     try {
       res.locals.meetings = await Meeting.find({_id:req.user.meeting})
@@ -161,7 +157,42 @@ app.get('/showMeeting',(req,res)=>{
       next(e)
     }
   }
-)*/
+)
+
+const Question=require('./models/Question');
+
+app.get('/addQuestion',(req,res)=>{
+  res.render('addQuestion');
+})
+
+app.post('/addQuestion',
+  async(req,res,next)=>{
+    try{
+      let subject=req.body.subject
+      let author=req.user._id
+      let date=new Date()
+      let question=req.body.question
+      let newQuestion=new Question({subject:subject,author:author,date:date,question:question})
+      await newQuestion.save()
+      redirect('/showQuestion')
+    }
+    catch(e){
+      next(e)
+    }
+})
+
+app.get('/showQuestion',
+  async(req, res,next) => {
+    try {
+      res.locals.questions = await Question.find({_id:req.user.question})
+      res.render('showQuestion')
+    } catch (e) {
+      next(e)
+    }
+  }
+)
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
