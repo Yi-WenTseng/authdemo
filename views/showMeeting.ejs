@@ -3,12 +3,13 @@
 </div>
 <hr>
 <div class="row">
-  <%meetings.forEach(meeting => { %>
+<% meetings.forEach(meeting => { %>
     <div class="card w-75" style="width:40rem;">
       <div class="card-body">
         <h5 class="card-title"><%= meeting.name %></h5>
         <p class="card-text">Meeting Time: <%= meeting.date %></p>
         <a href="<%= meeting.link %>" class="btn btn-info">Meeting Link</a>
+        <!--<a href="/addQuestion/<meeting.link%>" class="btn btn-info">Ask Question</a>-->
       </div>
     </div>
     <br>

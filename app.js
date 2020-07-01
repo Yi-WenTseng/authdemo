@@ -5,12 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const layouts = require("express-ejs-layouts");
-//const auth = require('./config/auth.js');
 
 
 const mongoose = require( 'mongoose' );
-//mongoose.connect( `mongodb+srv://${auth.atlasAuth.username}:${auth.atlasAuth.password}@cluster0-yjamu.mongodb.net/authdemo?retryWrites=true&w=majority`);
-//mongoose.connect( 'mongodb://localhost/authDemo');
 const mongoDB_URI = process.env.MONGODB_URI
 mongoose.connect(mongoDB_URI)
 
@@ -27,10 +24,11 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const toDoRouter = require('./routes/todo');
 const toDoAjaxRouter = require('./routes/todoAjax');
-
-
-
 const app = express();
+const User = require('./models/User');
+const Meeting = require('./models/Meeting');
+const Question=require('./models/Question');
+const Answer=require('./models/Answer');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -109,18 +107,6 @@ app.post('/editProfile',
 
     })
 
-const User = require('./models/User');
-
-app.get("/test",async (req,res,next) => {
-  try{
-    const u = await User.find({})
-    console.log("found u "+u)
-  }catch(e){
-    next(e)
-  }
-})
-
-const Meeting = require('./models/Meeting');
 
 app.get('/addMeeting',(req,res)=>{
   res.render('addMeeting')
@@ -132,9 +118,10 @@ app.post('/addMeeting',
       let name=req.body.name
       let date=req.body.date
       let link=req.body.link
-      let newMeeting=new Meeting({name:name,date:date,link:link})
+      let author=req.user._id
+      let newMeeting=new Meeting({author:author,name:name,date:date,link:link})
       await newMeeting.save()
-      req.user.meeting.push(newMeeting)
+      req.user.meetings.push(newMeeting)
       res.redirect('/showMeeting')
     }
     catch(e){
@@ -146,7 +133,7 @@ app.post('/addMeeting',
 app.get('/showMeeting',
   async(req, res,next) => {
     try {
-      res.locals.meetings = req.user.meeting
+      res.locals.meetings = await Meeting.find({author:req.user._id})
       res.render('showMeeting')
     } catch (e) {
       next(e)
@@ -154,11 +141,11 @@ app.get('/showMeeting',
   }
 )
 
-const Question=require('./models/Question');
 
 app.get('/addQuestion',(req,res)=>{
-  res.render('addQuestion');
+    res.render('addQuestion');
 })
+
 
 app.post('/addQuestion',
   async(req,res,next)=>{
@@ -169,14 +156,14 @@ app.post('/addQuestion',
       let question=req.body.question
       let newQuestion=new Question({subject:subject,author:author,date:date,question:question})
       await newQuestion.save()
-      res.redirect('/showQuestion')
+      res.redirect(`/showQuestions`)
     }
     catch(e){
       next(e)
     }
 })
 
-app.get('/showQuestion',
+app.get('/showQuestions',
   async(req, res,next) => {
     try {
       res.locals.questions = await Question.find({})
@@ -186,6 +173,37 @@ app.get('/showQuestion',
     }
   }
 )
+
+app.post('/addAnswer',
+  async(req,res,next)=>{
+    try{
+      let author=req.user._id
+      let date=new Date()
+      let questionID=req.params.itemId
+      let answer=req.body.answer
+      let newAnswer=new Answer({author:author,date:date,questionID:questionID,answer:answer})
+      await newAnswer.save()
+      res.redirect(`/showAnswer/${req.params.itemId}`)
+    }
+    catch(e){
+      next(e)
+    }
+})
+
+app.get('/showAnswer/:itemId',
+  async(req,res,next)=>{
+  try{
+    const query={
+      questionID:req.params.itemId
+    }
+    res.locals.ID=req.params.itemId
+    res.locals.question=await Question.find({_id:req.params.itemId})
+    res.locals.answers=await Answer.find(query)
+    res.render('showAnswer')
+}catch(e){
+  next(e)
+}
+})
 
 app.get('/about',(req,res)=>{
   res.render('about')

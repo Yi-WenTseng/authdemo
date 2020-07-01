@@ -1,8 +1,7 @@
 'use strict';
 const mongoose = require( 'mongoose' );
 const Schema = mongoose.Schema;
-
-//var userSchema = mongoose.Schema( {any:{}})
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 var userSchema = Schema( {
   googleid: String,
@@ -12,8 +11,7 @@ var userSchema = Schema( {
   username:String,
   age:Number,
   imageURL: String,
-  meetings:[{type:Schema.Types.ObjectId, ref:"Meeting"}],
-  questions:[{type:Schema.Types.ObjectId,ref:"Question"}]
+  meetings:[{type:Schema.Types.ObjectId, ref:"Meeting"}]
 } );
 
 module.exports = mongoose.model( 'UserYT', userSchema );

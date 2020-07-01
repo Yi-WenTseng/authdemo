@@ -2,11 +2,16 @@
   <h1>Show Your Questions</h1>
 </div>
 <hr>
-<ol>
+
   <%questions.forEach(question => { %>
-    <li>
-          <%=question.subject %>
-          <%= question.question %>
-    </li>
+    <div class="card w-75" style="width:40rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%= question.subject %></h5>
+        <p class="card-text"><%= question.question %></p>
+        <p class="card-text"><%= question.date %></p>
+        <a href="/showAnswer/<%=question._id %>" class="btn btn-info">Answers</a>
+      </div>
+    </div>
+    <br>
+    <br>
   <% }) %>
-</ol>
