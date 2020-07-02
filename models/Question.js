@@ -7,8 +7,10 @@ var questionSchema = Schema( {
   meeting:ObjectId,
   subject:String,
   author:ObjectId,
+  name:String,
   date:Date,
-  question:String
+  question:String,
+  answers:[{type:Schema.Types.ObjectId, ref:"Answer"}]
 } );
 
 module.exports = mongoose.model( 'QuestionYT', questionSchema );

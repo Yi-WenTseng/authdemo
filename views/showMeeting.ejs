@@ -1,18 +1,19 @@
 <div class="jumbotron">
-  <h1>Your Meeting</h1>
+  <h1>Your Meetings</h1>
 </div>
 <hr>
-<div class="row">
 <% meetings.forEach(meeting => { %>
-    <div class="card w-75" style="width:40rem;">
-      <div class="card-body">
-        <h5 class="card-title"><%= meeting.name %></h5>
-        <p class="card-text">Meeting Time: <%= meeting.date %></p>
-        <a href="<%= meeting.link %>" class="btn btn-info">Meeting Link</a>
-        <!--<a href="/addQuestion/<meeting.link%>" class="btn btn-info">Ask Question</a>-->
-      </div>
+  <div class="panel panel-default">
+     <div class="panel-heading"><%= meeting.name %></div>
+   <div class="panel-body">
+         <p class="card-text">Meeting Time: <%= meeting.date %></p>
+         <p class="card-text">Meeting Detail: <%= meeting.detail %></p>
+         <a href="<%= meeting.link %>" class="btn btn-info">Meeting Link</a>
+         <a href="/deleteMeeting/<%=meeting._id%>" class="btn btn-info">Cancel this meeting</a>
+         <a href="/editMeeting/<%=meeting._id%>" class="btn btn-info">Edit this meeting</a>
+         <!--<a href="/addQuestion/<meeting.link%>" class="btn btn-info">Ask Question</a>-->
     </div>
+   </div>
     <br>
     <br>
   <% }) %>
-</div>

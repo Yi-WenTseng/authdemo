@@ -42,9 +42,6 @@ router.get('/remove/:itemId',
       res.redirect('/toDo')
 });
 
-
-
-
 // get the value associated to the key
 router.get('/',
   isLoggedIn,

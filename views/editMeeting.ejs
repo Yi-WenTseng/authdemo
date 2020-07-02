@@ -1,21 +1,21 @@
 <div class="jumbotron">
-  <h1>Add Meeting to Your Schedule</h1>
+  <h1>Edit Your Meeting Information</h1>
 </div>
-<form action="/addMeeting" method="post">
+<form action="/editMeeting/<%=meeting._id%>" method="post">
       <div class="form-group">
         <label for="name">Meeting/Course Name</label>
-        <input type="text" name="name" value="" class=" form-control">
+        <input type="text" name="name" value="<%=meeting.name%>" class=" form-control">
       </div>
       <div class="form-group">
         <label for="date">Meeting/Course Time</label>
-        <input type="text" name="date" value="" class=" form-control">
+        <input type="text" name="date" value="<%=meeting.date%>" class=" form-control">
       </div>
       <div class="form-group">
         <label for="link">Zoom Link</label>
-        <input type="text" name="link" value="" class=" form-control">
+        <input type="text" name="link" value="<%=meeting.link%>" class=" form-control">
       </div>
       <h5><b>Meeting Detail</b></h5>
-      <textarea name="detail" rows="5" cols="200"></textarea>
+      <textarea name="detail" rows="5" cols="200"><%=meeting.detail%></textarea>
       <br>
       <br>
       <input type="submit" value="Submit" class="btn btn-info">

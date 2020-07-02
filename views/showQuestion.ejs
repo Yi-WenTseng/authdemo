@@ -1,15 +1,22 @@
 <div class="jumbotron">
-  <h1>Show Your Questions</h1>
+  <h1>Show Questions</h1>
 </div>
 <hr>
 
   <%questions.forEach(question => { %>
-    <div class="card w-75" style="width:40rem;">
-      <div class="card-body">
-        <h5 class="card-title"><%= question.subject %></h5>
+    <div class="panel panel-default">
+        <h3 class="panel-heading"><%= question.subject %></h3>
+      <div class="panel-body">
+        <p class="card-text"><h7>Asked by: <%= question.name %></h7></p>
+        <p class="card-text"><h7>Posted date:<%= question.date %></h7></p>
         <p class="card-text"><%= question.question %></p>
-        <p class="card-text"><%= question.date %></p>
-        <a href="/showAnswer/<%=question._id %>" class="btn btn-info">Answers</a>
+        <a href="/deleteQuestion/<%=question._id %>" class="btn btn-info">Delete this Question</a>
+        <a href="/addAnswer/<%=question._id %>" class="btn btn-info">Add Your Answer</a>
+      <!--  < answers.forEach(answer=>{%>
+          <p class="card-text"><=answer.author %></p>
+          <p class="card-text"><=answer.date %></p>
+          <p class="card-text"><=answer.answer %></p>
+        <})%>-->
       </div>
     </div>
     <br>

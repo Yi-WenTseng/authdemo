@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 var meetingSchema = Schema( {
-  host:ObjectId,
+  author:ObjectId,
   meeting:String,
-  pin:Number,
   name:String,
   date:String,
   link:String,
-} );
+  detail:String
+});
 
 module.exports = mongoose.model( 'MeetingYT', meetingSchema );

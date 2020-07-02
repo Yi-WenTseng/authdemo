@@ -1,0 +1,25 @@
+<div class="jumbotron">
+  <h1>Question: <%= question.question %></h1>
+  <h4>Category: <%= question.subject %></h4>
+  <h4>Posted by: <%= question.name %></h4>
+  <h6>Posted date: <%= question.date %></h6>
+</div>
+<hr>
+  <form method="post" action="/addAnswer/<%=question._id%>">
+    <h5><b>Your Answer</b></h5>
+    <textarea name="answer" rows="5" cols="200"></textarea>
+    <br>
+    <input type="submit" value="Submit" class="btn btn-info">
+  </form>
+  <br>
+  <br>
+  <h4>Answers:</h4>
+  <% answers.forEach(answer=>{%>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p class="card-text"><%=answer.author %></p>
+        <p class="card-text"><h6><%=answer.date %></h6></p>
+        <p class="card-text">Answer: <%=answer.answer %></p>
+      </div>
+    </div>
+  <%})%>

@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 var answerSchema = Schema( {
-  author:ObjectId,
+  author:String,
   date:Date,
-  questionID:ObjectId,
+  question:ObjectId,
   answer:String
 } );
 

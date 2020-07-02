@@ -119,7 +119,8 @@ app.post('/addMeeting',
       let date=req.body.date
       let link=req.body.link
       let author=req.user._id
-      let newMeeting=new Meeting({author:author,name:name,date:date,link:link})
+      let detail=req.body.detail
+      let newMeeting=new Meeting({author:author,name:name,date:date,link:link,detail:detail})
       await newMeeting.save()
       req.user.meetings.push(newMeeting)
       res.redirect('/showMeeting')
@@ -139,7 +140,39 @@ app.get('/showMeeting',
       next(e)
     }
   }
-)
+);
+
+app.get('/deleteMeeting/:itemId',
+  isLoggedIn,
+  async(req,res,next)=>{
+      console.log("inside /meeting/remove/:itemId")
+      await Meeting.remove({_id:req.params.itemId});
+      res.redirect('/showMeeting')
+  });
+
+
+app.get('/editMeeting/:itemId',
+  isLoggedIn,
+  async(req, res, next)=>{
+    try{
+      res.locals.meeting=await Meeting.findOne({_id:req.params.itemId})
+      console.log(res.locals)
+      res.render('editMeeting')
+    }catch(e){
+      next(e)
+    }
+})
+
+app.post('/editMeeting/:itemId',
+async(req,res,next)=>{
+  let meeting=await Meeting.findOne({_id:req.params.itemId})
+  meeting.name=req.body.name
+  meeting.date=req.body.date
+  meeting.link=req.body.link
+  meeting.detail=req.body.detail
+  await meeting.save()
+  res.redirect('/showMeeting')
+})
 
 
 app.get('/addQuestion',(req,res)=>{
@@ -152,9 +185,10 @@ app.post('/addQuestion',
     try{
       let subject=req.body.subject
       let author=req.user._id
+      let name=req.user.googlename
       let date=new Date()
       let question=req.body.question
-      let newQuestion=new Question({subject:subject,author:author,date:date,question:question})
+      let newQuestion=new Question({subject:subject,author:author,date:date,question:question,name:name})
       await newQuestion.save()
       res.redirect(`/showQuestions`)
     }
@@ -174,16 +208,34 @@ app.get('/showQuestions',
   }
 )
 
-app.post('/addAnswer',
+app.get('/deleteQuestion/:itemId',
+async(req,res,next)=>{
+  await Question.remove({_id:req.params.itemId})
+  res.redirect('/showQuestions')
+})
+
+app.get('/addAnswer/:itemId',
+async(req,res,next)=>{
+  res.locals.question=await Question.findOne({_id:req.params.itemId})
+  const query={
+    question:req.params.itemId
+  }
+  res.locals.answers=await Answer.find(query)
+  res.render('addAnswer')
+})
+
+app.post('/addAnswer/:itemId',
   async(req,res,next)=>{
     try{
-      let author=req.user._id
+      let author=req.user.googlename
       let date=new Date()
-      let questionID=req.params.itemId
+      let question=req.params.itemId
       let answer=req.body.answer
-      let newAnswer=new Answer({author:author,date:date,questionID:questionID,answer:answer})
+      let newAnswer=new Answer({author:author,date:date,question:question,answer:answer})
       await newAnswer.save()
-      res.redirect(`/showAnswer/${req.params.itemId}`)
+      let q=await Question.findOne({_id:req.params.itemId})
+      q.answers.push(newAnswer)
+      res.redirect(`/addAnswer/${req.params.itemId}`)
     }
     catch(e){
       next(e)
